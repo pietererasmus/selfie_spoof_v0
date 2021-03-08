@@ -2,13 +2,12 @@ import numpy as np
 import sys, os
 import json
 import cv2
-from fastai.basic_train import load_learner
+from fastai.vision.all import *
 from PIL import Image as PImage
-from fastai.vision import *
 
-
+#This code is for the fastai V2 library
 dir_path = os.path.dirname(os.path.realpath(__file__));
-learn = load_learner(path='./python/models', file='trained_model.pkl');
+learn = load_learner('./models/export.pkl');
 classes = learn.data.classes
 
 def apply_FFT_transform(input_image_path):
@@ -18,7 +17,7 @@ def apply_FFT_transform(input_image_path):
     dft_shift = np.fft.fftshift(dft)
     magnitude_spectrum = 10*np.log(cv2.magnitude(dft_shift[:,:,0], dft_shift[:,:,1]))
     magnitude_spectrum[magnitude_spectrum < 0] = 0
-    return cv2.resize(magnitude_spectrum, (512,512), interpolation = cv2.INTER_AREA)
+    return cv2.resize(magnitude_spectrum, (256,256), interpolation = cv2.INTER_AREA)
 
 def img2d_3d(input_image):
     output_image = np.zeros((input_image.shape[0],input_image.shape[1], 3), dtype=np.uint8)
