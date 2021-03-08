@@ -7,8 +7,12 @@ from PIL import Image as PImage
 
 #This code is for the fastai V2 library
 dir_path = os.path.dirname(os.path.realpath(__file__));
-learn = load_learner('./models/export.pkl');
+learn = load_learner('./models/export_256_9496');
 classes = learn.data.classes
+
+class saveEachEpoch(Callback):
+    after_epoch(self):
+        return true
 
 def apply_FFT_transform(input_image_path):
     img = cv2.imread(input_image_path)
