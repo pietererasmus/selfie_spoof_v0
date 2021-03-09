@@ -7,10 +7,9 @@ from fastai.vision.all import *
 #This code is for the fastai V2 library
 class saveEachEpoch(Callback):
     def after_epoch(self):
-        return true
-        
-dir_path = os.path.dirname(os.path.realpath(__file__));
-learn = load_learner('./models/export_256_9143');
+        return true      
+dir_path = os.path.dirname(os.path.realpath(__file__))
+learn = load_learner(f'{dir_path}/models/export_256_9143')
 classes = learn.data.vocab
 
 def apply_FFT_transform(input_image_path):
@@ -33,8 +32,8 @@ im_path = dir_path + '/' + sys.argv[1]
 im_path = im_path.replace('\\', '/')
 
 img_fft = apply_FFT_transform(im_path)
-
 img_3d = img2d_3d(img_fft)
 
 pred = learn.predict(PILImage.create(img_3d))
 print({c: round(float(pred[2][i]), 5) for (i, c) in enumerate(classes)})
+sys.stdout.flush()
